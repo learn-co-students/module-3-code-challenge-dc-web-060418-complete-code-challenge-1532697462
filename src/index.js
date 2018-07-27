@@ -35,15 +35,14 @@ function saveLikes() {
 
 function newCommentHandling(e) {
   e.preventDefault()
-  let newComment = document.createElement("li")
+
   let commentText = e.target.querySelector("#comment_input").value
-  newComment.innerText = commentText
-  document.querySelector("#comments").appendChild(newComment)
+
   e.target.reset()
-  saveComment(commentText, newComment)
+  saveComment(commentText)
 }
 
-function saveComment(commentText, newComment) {
+function saveComment(commentText) {
   fetch(commentsURL, {
     method: "POST",
     headers: {
@@ -52,9 +51,10 @@ function saveComment(commentText, newComment) {
     },
     body: JSON.stringify({image_id: 13, content: commentText})
   }).then(r => r.json()).then(comment => {
-    let deleteButton = document.createElement("button")
-    newComment.appendChild(deleteButton)
-    deleteButton.outerHTML = `<button data-commentId="${comment.id}" onclick="deleteComment(event)">x</button>`
+
+    let newComment = new Comment(comment.id, comment.content)
+    newComment.render()
+
   })
 }
 

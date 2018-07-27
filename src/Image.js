@@ -13,10 +13,9 @@ class Image {
       document.querySelector("#likes").innerText = this.like_count
       let commentList = document.querySelector("#comments")
       this.comments.forEach(comment => {
-          let commentEl = document.createElement("li")
-          commentEl.innerText = comment.content
-          commentList.appendChild(commentEl)
-          this.deleteCommentButton(commentEl, comment.id)
+
+          let newComment = new Comment(comment.id, comment.content)
+          newComment.render() //will make new comment element, append it and add delete button
       })
       document.querySelector("#like_button").addEventListener("click", like)
   }
