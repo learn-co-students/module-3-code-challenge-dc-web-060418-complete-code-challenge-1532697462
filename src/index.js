@@ -45,10 +45,10 @@ function newCommentHandling(e) {
   newComment.innerText = commentText
   document.querySelector("#comments").appendChild(newComment)
   e.target.reset()
-  saveComment(commentText)
+  saveComment(commentText, newComment)
 }
 
-function saveComment(commentText) {
+function saveComment(commentText, newComment) {
   fetch('https://randopic.herokuapp.com/comments', {
     method: "POST",
     headers: {
@@ -56,5 +56,24 @@ function saveComment(commentText) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({image_id: 13, content: commentText})
-  }).then(r => r.json()).then(console.log)
+  }).then(r => r.json()).then(comment => {
+    let deleteButton = document.createElement("button")
+    newComment.appendChild(deleteButton)
+    deleteButton.outerHTML = `<button data-commentId="${comment.id}" onclick="deleteComment(event)">x</button>`
+  })
 }
+
+function deleteComment(event) {
+  deleteCommentForReal(event.target.dataset.commentid)
+  event.target.parentNode.remove()
+}
+
+function deleteCommentForReal(commentid) {
+  console.log(commentid)
+  fetch(`https://randopic.herokuapp.com/comments/${commentid}`, {
+    method: "DELETE"
+  }).then(r => r.json()).then(response => {
+    alert(response.message)
+  })
+}
+

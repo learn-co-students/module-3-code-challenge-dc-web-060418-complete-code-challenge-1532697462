@@ -16,8 +16,15 @@ class Image {
           let commentEl = document.createElement("li")
           commentEl.innerText = comment.content
           commentList.appendChild(commentEl)
+          this.deleteCommentButton(commentEl, comment.id)
       })
       document.querySelector("#like_button").addEventListener("click", like)
+  }
+
+  deleteCommentButton(commentEl, commentId) {
+    let deleteButton = document.createElement("button")
+    commentEl.appendChild(deleteButton)
+    deleteButton.outerHTML = `<button data-commentId="${commentId}" onclick="deleteComment(event)">x</button>`
   }
 
 }
