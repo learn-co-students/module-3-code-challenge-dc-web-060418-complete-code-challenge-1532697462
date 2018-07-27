@@ -1,15 +1,10 @@
+const imageId = 13 //Enter your assigned imageId here
+const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
+const likeURL = `https://randopic.herokuapp.com/likes/`
+const commentsURL = `https://randopic.herokuapp.com/comments/`
+
 document.addEventListener('DOMContentLoaded', function() {
-
-  const imageId = 13 //Enter your assigned imageId here
-
-  const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
-
-  const likeURL = `https://randopic.herokuapp.com/likes/`
-
-  const commentsURL = `https://randopic.herokuapp.com/comments/`
- 
   showImage(imageURL)
-
 })
 
 function showImage(imageURL) {
@@ -21,14 +16,14 @@ function showImage(imageURL) {
   })
 }
 
-function like(e) {
+function like() {
   let oldLikes = parseInt(document.querySelector("#likes").innerText)
   document.querySelector("#likes").innerText = oldLikes+1 
   saveLikes()
 }
 
 function saveLikes() {
-  fetch(`https://randopic.herokuapp.com/likes/`, {
+  fetch(likeURL, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -49,7 +44,7 @@ function newCommentHandling(e) {
 }
 
 function saveComment(commentText, newComment) {
-  fetch('https://randopic.herokuapp.com/comments', {
+  fetch(commentsURL, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
